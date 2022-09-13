@@ -8,6 +8,7 @@ import com.othkkartho.vtuber_site_v2.exception.MemberNotFoundException;
 import com.othkkartho.vtuber_site_v2.repository.role.RoleRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
 
@@ -22,6 +23,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class MemberRepositoryTest {
     @Autowired MemberRepository memberRepository;
     @Autowired RoleRepository roleRepository;

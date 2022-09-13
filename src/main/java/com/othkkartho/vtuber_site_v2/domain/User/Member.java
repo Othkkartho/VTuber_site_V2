@@ -25,15 +25,14 @@ public class Member extends BaseTimeEntity implements Serializable {
     @Comment("유저 고유 DB 아이디")
     private Long id;
 
-    @Column (unique = true, nullable = false, length = 50)
+    @Column(unique = true, nullable = false, length = 50)
     @Comment("유저 이메일 밑 아이디")
     private String email;
 
-    @Column
+    @Column(unique = true, nullable = false, length = 50)
     @Comment("유저 닉네임")
     private String nickname;
 
-    @Column
     @Comment("유저 비밀번호")
     private String password;
 

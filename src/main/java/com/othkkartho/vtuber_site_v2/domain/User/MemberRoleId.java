@@ -12,8 +12,6 @@ import java.io.Serializable;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class MemberRoleId implements Serializable {
-    @Transient
     private Member member;
-    @Transient
     private Role role;
 }
