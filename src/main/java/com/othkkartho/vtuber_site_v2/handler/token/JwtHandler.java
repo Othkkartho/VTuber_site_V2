@@ -50,5 +50,5 @@ public class JwtHandler {
         return token.substring(type.length());
     }
     // 즐겨찾기 4번째에 설명 있음. 주석의 코드들은 Deprecated이 선언되었기에 대체 코드를 만듬.
-    // 나중에 정확한 키 선언 방법을 공부한 후 코드를 재 변경할 예정
+    // 나중에 정확한 키 선언 방법을 공부한 후 코드를 재 변경할 예정(변수로 받는 encodekey나 keys의 값들이 어떻게 들어오는지 확인해야 함)
 }
