@@ -11,9 +11,8 @@ import java.util.Date;
 public class JwtHandler {
     private String type = "Bearer ";
 
-    public String createToken(String encodedKey, String subject, long maxAgeSeconds) {
+    public String createToken(SecretKey key, String subject, long maxAgeSeconds) {
         Date now = new Date();
-        SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
         return type + Jwts.builder()
                 .setSubject(subject)
                 .setIssuedAt(now)
@@ -23,11 +22,11 @@ public class JwtHandler {
                 .compact();
     }
 
-    public String extractSubject(String encodedKey, String token) {
+    public String extractSubject(SecretKey encodedKey, String token) {
         return parse(encodedKey, token).getBody().getSubject();
     }
 
-    public boolean validate(String encodedKey, String token) {
+    public boolean validate(SecretKey encodedKey, String token) {
         try {
             parse(encodedKey, token);
             return true;
@@ -36,11 +35,10 @@ public class JwtHandler {
         }
     }
 
-    private Jws<Claims> parse(String keys, String token) {
+    private Jws<Claims> parse(SecretKey key, String token) {
 //        return Jwts.parser()
-//                .setSigningKey(key)
+//                .setSigningKey(keys)
 //                .parseClaimsJws(untype(token));
-        SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
         return Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build().parseClaimsJws(untype(token));
