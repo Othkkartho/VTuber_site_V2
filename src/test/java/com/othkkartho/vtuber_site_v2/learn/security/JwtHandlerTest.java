@@ -19,6 +19,7 @@ public class JwtHandlerTest {
         // given, when
         SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
         String token = createToken(key, "subject", 60L);
+        System.out.println(token);
 
         // then
         assertThat(token).contains("Bearer ");
