@@ -2,6 +2,7 @@ HELP.md
 .gradle
 build/
 src/main/resources/application.properties
+src/main/resources/application-security.yml
 src/main/resources/application-oauth.properties
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
