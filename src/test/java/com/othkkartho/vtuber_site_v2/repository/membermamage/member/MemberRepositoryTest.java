@@ -1,10 +1,11 @@
-package com.othkkartho.vtuber_site_v2.repository.member;
+package com.othkkartho.vtuber_site_v2.repository.membermamage.member;
 
 import com.othkkartho.vtuber_site_v2.domain.User.Member;
 import com.othkkartho.vtuber_site_v2.domain.User.MemberRole;
 import com.othkkartho.vtuber_site_v2.domain.User.Role;
 import com.othkkartho.vtuber_site_v2.domain.User.RoleType;
 import com.othkkartho.vtuber_site_v2.exception.MemberNotFoundException;
+import com.othkkartho.vtuber_site_v2.repository.member.MemberRepository;
 import com.othkkartho.vtuber_site_v2.repository.role.RoleRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class MemberRepositoryTest {
-    @Autowired MemberRepository memberRepository;
+    @Autowired
+    MemberRepository memberRepository;
     @Autowired RoleRepository roleRepository;
     @PersistenceContext EntityManager em;
 

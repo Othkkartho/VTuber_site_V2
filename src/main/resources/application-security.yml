@@ -1,0 +1,4 @@
+jwt:
+  max-age:
+    access: 1800
+    refresh: 604800

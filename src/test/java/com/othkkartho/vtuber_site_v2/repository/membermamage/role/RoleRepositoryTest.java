@@ -1,8 +1,9 @@
-package com.othkkartho.vtuber_site_v2.repository.role;
+package com.othkkartho.vtuber_site_v2.repository.membermamage.role;
 
 import com.othkkartho.vtuber_site_v2.domain.User.Role;
 import com.othkkartho.vtuber_site_v2.domain.User.RoleType;
 import com.othkkartho.vtuber_site_v2.exception.RoleNotFoundException;
+import com.othkkartho.vtuber_site_v2.repository.role.RoleRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -18,7 +19,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class RoleRepositoryTest {
-    @Autowired RoleRepository roleRepository;
+    @Autowired
+    RoleRepository roleRepository;
     @PersistenceContext EntityManager em;
 
     @Test
