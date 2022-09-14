@@ -18,15 +18,17 @@ import java.util.Objects;
 public class TokenService {
     private final JwtHandler jwtHandler;
 
-    @Value("${jwt.max-age.access}")
+    @Value("${jwt.max-age.access}") // 1
     private long accessTokenMaxAgeSeconds;
 
-    @Value("${jwt.max-age.refresh}")
+    @Value("${jwt.max-age.refresh}") // 2
     private long refreshTokenMaxAgeSeconds;
 
-    private final SecretKey accessKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    @Value("${jwt.key.access}") // 3
+    private String accessKey;
 
-    private final SecretKey refreshKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    @Value("${jwt.key.refresh}") // 4
+    private String refreshKey;
 
     public String createAccessToken(String subject) {
         return jwtHandler.createToken(accessKey, subject, accessTokenMaxAgeSeconds);

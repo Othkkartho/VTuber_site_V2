@@ -29,33 +29,33 @@ public class TokenServiceTest {
     void beforeEach() {
         ReflectionTestUtils.setField(tokenService, "accessTokenMaxAgeSeconds", 10L);
         ReflectionTestUtils.setField(tokenService, "refreshTokenMaxAgeSeconds", 10L);
+        ReflectionTestUtils.setField(tokenService, "accessKey", "accessKey");
+        ReflectionTestUtils.setField(tokenService, "refreshKey", "refreshKey");
     }
 
     @Test
     void createAccessTokenTest() {
         // given
-        SecretKey anyKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-        given(jwtHandler.createToken(anyKey, anyString(), anyLong())).willReturn("access");
+        given(jwtHandler.createToken(anyString(), anyString(), anyLong())).willReturn("access");
 
         // when
         String token = tokenService.createAccessToken("subject");
 
         // then
         assertThat(token).isEqualTo("access");
-        verify(jwtHandler).createToken(anyKey, anyString(), anyLong());
+        verify(jwtHandler).createToken(anyString(), anyString(), anyLong());
     }
 
     @Test
     void createRefreshTokenTest() {
         // given
-        SecretKey anyKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-        given(jwtHandler.createToken(anyKey, anyString(), anyLong())).willReturn("refresh");
+        given(jwtHandler.createToken(anyString(), anyString(), anyLong())).willReturn("refresh");
 
         // when
         String token = tokenService.createRefreshToken("subject");
 
         // then
         assertThat(token).isEqualTo("refresh");
-        verify(jwtHandler).createToken(anyKey, anyString(), anyLong());
+        verify(jwtHandler).createToken(anyString(), anyString(), anyLong());
     }
 }

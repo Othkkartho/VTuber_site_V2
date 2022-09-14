@@ -8,18 +8,27 @@ import org.junit.jupiter.api.Test;
 
 import javax.crypto.SecretKey;
 import java.util.Base64;
+import java.util.Random;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class JwtHandlerTest {
     JwtHandler jwtHandler = new JwtHandler();
 
+    int leftLimit = 65;
+    int rightLimit = 122;
+    int targetStringLength = 70;
+    Random random = new Random();
+    String generatedString = random.ints(leftLimit, rightLimit + 1)
+            .limit(targetStringLength)
+            .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+            .toString();
+
     @Test
     void createTokenTest() {
         // given, when
-        SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-        String token = createToken(key, "subject", 60L);
-        System.out.println(token);
+        String encodedKey = Base64.getEncoder().encodeToString(generatedString.getBytes());
+        String token = createToken(encodedKey, "subject", 60L);
 
         // then
         assertThat(token).contains("Bearer ");
@@ -28,12 +37,12 @@ public class JwtHandlerTest {
     @Test
     void extractSubjectTest() {
         // given
-        SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+        String encodedKey = Base64.getEncoder().encodeToString(generatedString.getBytes());
         String subject = "subject";
-        String token = createToken(key, subject, 60L);
+        String token = createToken(encodedKey, subject, 60L);
 
         // when
-        String extractedSubject = jwtHandler.extractSubject(key, token);
+        String extractedSubject = jwtHandler.extractSubject(encodedKey, token);
 
         // then
         assertThat(extractedSubject).isEqualTo(subject);
@@ -42,11 +51,11 @@ public class JwtHandlerTest {
     @Test
     void validateTest() {
         // given
-        SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-        String token = createToken(key, "subject", 60L);
+        String encodedKey = Base64.getEncoder().encodeToString(generatedString.getBytes());
+        String token = createToken(encodedKey, "subject", 60L);
 
         // when
-        boolean isValid = jwtHandler.validate(key, token);
+        boolean isValid = jwtHandler.validate(encodedKey, token);
 
         // then
         assertThat(isValid).isTrue();
@@ -55,12 +64,11 @@ public class JwtHandlerTest {
     @Test
     void invalidateByInvalidKeyTest() {
         // given
-        SecretKey key1 = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-        SecretKey key2 = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-        String token = createToken(key1, "subject", 60L);
+        String encodedKey = Base64.getEncoder().encodeToString(generatedString.getBytes());
+        String token = createToken(encodedKey, "subject", 60L);
 
         // when
-        boolean isValid = jwtHandler.validate(key2, token);
+        boolean isValid = jwtHandler.validate("invalid", token);
 
         // then
         assertThat(isValid).isFalse();
@@ -69,17 +77,17 @@ public class JwtHandlerTest {
     @Test
     void invalidateByExpiredTokenTest() {
         // given
-        SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-        String token = createToken(key, "subject", 0L);
+        String encodedKey = Base64.getEncoder().encodeToString(generatedString.getBytes());
+        String token = createToken(encodedKey, "subject", 0L);
 
         // when
-        boolean isValid = jwtHandler.validate(key, token);
+        boolean isValid = jwtHandler.validate(encodedKey, token);
 
         // then
         assertThat(isValid).isFalse();
     }
 
-    private String createToken(SecretKey encodedKey, String subject, long maxAgeSeconds) {
+    private String createToken(String encodedKey, String subject, long maxAgeSeconds) {
         return jwtHandler.createToken(
                 encodedKey,
                 subject,
