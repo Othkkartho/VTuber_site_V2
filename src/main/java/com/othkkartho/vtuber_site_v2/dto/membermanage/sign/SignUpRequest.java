@@ -24,7 +24,7 @@ public class SignUpRequest {
     private String password;
     @NotBlank(message = "닉네임을 입력해 주세요.")
     @Size(min=2, message = "닉네임이 너무 짧습니다.")
-    @Pattern(regexp = "^[A-Za-z가-힣1-9]+$", message = "닉네임은 한글 또는 알파벳만 입력해주세요.")
+    @Pattern(regexp = "^[A-Za-z가-힣1-9]+$", message = "닉네임은 한글,알파벳과 숫자만 입력해주세요.")
     private String nickname;
     private Long point;
     private String introduce;
