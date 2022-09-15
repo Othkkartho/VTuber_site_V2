@@ -39,9 +39,6 @@ public class Member extends BaseTimeEntity implements Serializable {
     @Comment("유저 보유 포인트")
     private Long point;
 
-    @Comment("유저 주소")
-    private String address;
-
     @Comment("유저 소개글")
     private String introduce;
 
@@ -53,12 +50,11 @@ public class Member extends BaseTimeEntity implements Serializable {
     private Set<MemberRole> roles;
 
     @Builder
-    public Member(String email, String password, String nickname, Long point, String address, String introduce, String provider, List<Role> roles) {
+    public Member(String email, String password, String nickname, Long point, String introduce, String provider, List<Role> roles) {
         this.email = email;
         this.password = password;
         this.nickname = nickname;
         this.point = point;
-        this.address = address;
         this.introduce = introduce;
         this.provider = provider;
         this.roles = roles.stream().map(r -> new MemberRole(this, r)).collect(toSet());

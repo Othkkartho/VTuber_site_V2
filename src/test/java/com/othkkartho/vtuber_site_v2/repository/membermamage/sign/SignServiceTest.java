@@ -126,11 +126,11 @@ public class SignServiceTest {
 
 
     private SignUpRequest createSignUpRequest() {
-        return new SignUpRequest("email", "password", "nickname", 0L, "", "", "local");
+        return new SignUpRequest("email", "password", "nickname", 0L, "", "local");
     }
 
     private Member createMember() {
-        return new Member("email", "password", "nickname", 0L, "", "", "local", Collections.emptyList());
+        return new Member("email", "password", "nickname", 0L, "", "local", Collections.emptyList());
     }
 
 }
