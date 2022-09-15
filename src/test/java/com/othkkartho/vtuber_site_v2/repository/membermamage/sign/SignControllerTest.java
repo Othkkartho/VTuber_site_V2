@@ -39,7 +39,7 @@ public class SignControllerTest {
     @Test
     void signUpTest() throws Exception {
         // given
-        SignUpRequest req = new SignUpRequest("email@email.com", "123456a!", "username", 10L, "", "", "local");
+        SignUpRequest req = new SignUpRequest("email@email.com", "123456a!", "username", 10L, "", "local");
 
         // when, then
         mockMvc.perform(
@@ -72,7 +72,7 @@ public class SignControllerTest {
     @Test
     void ignoreNullValueInJsonResponseTest() throws Exception {
         // given
-        SignUpRequest req = new SignUpRequest("email@email.com", "123456a!", "username", 10L, "", "", "local");
+        SignUpRequest req = new SignUpRequest("email@email.com", "123456a!", "username", 10L, "", "local");
 
         // when, then
         mockMvc.perform(
