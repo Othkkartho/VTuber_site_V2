@@ -1,6 +1,6 @@
 package com.othkkartho.vtuber_site_v2.config.security;
 
-import com.othkkartho.vtuber_site_v2.dto.membermanage.sign.TokenService;
+import com.othkkartho.vtuber_site_v2.config.security.token.TokenHelper;
 import com.othkkartho.vtuber_site_v2.handler.token.CustomAccessDeniedHandler;
 import com.othkkartho.vtuber_site_v2.handler.token.CustomAuthenticationEntryPoint;
 import com.othkkartho.vtuber_site_v2.service.membermanage.CustomUserDetailsService;
@@ -19,11 +19,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-    private final TokenService tokenService;
+    private final TokenHelper accessTokenHelper;
     private final CustomUserDetailsService userDetailsService;
 
-    public SecurityConfig(TokenService tokenService, CustomUserDetailsService userDetailsService) {
-        this.tokenService = tokenService;
+    public SecurityConfig(TokenHelper accessTokenHelper, CustomUserDetailsService userDetailsService) {
+        this.accessTokenHelper = accessTokenHelper;
         this.userDetailsService = userDetailsService;
     }
 
@@ -49,8 +49,8 @@ public class SecurityConfig {
                 .exceptionHandling().accessDeniedHandler(new CustomAccessDeniedHandler())
                 .and()
                 .exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
-                .and() // 7
-                .addFilterBefore(new JwtAuthenticationFilter(tokenService, userDetailsService), UsernamePasswordAuthenticationFilter.class);
+                .and()
+                .addFilterBefore(new JwtAuthenticationFilter(accessTokenHelper, userDetailsService), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

@@ -1,7 +1,7 @@
 package com.othkkartho.vtuber_site_v2.config.security;
 
+import com.othkkartho.vtuber_site_v2.config.security.token.TokenHelper;
 import com.othkkartho.vtuber_site_v2.dto.membermanage.member.CustomUserDetails;
-import com.othkkartho.vtuber_site_v2.dto.membermanage.sign.TokenService;
 import com.othkkartho.vtuber_site_v2.service.membermanage.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +18,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 @Slf4j
 public class JwtAuthenticationFilter extends GenericFilterBean {
-    private final TokenService tokenService;
+    private final TokenHelper accessTokenHelper;
     private final CustomUserDetailsService userDetailsService;
 
     @Override
@@ -35,11 +35,11 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
     }
 
     private boolean validateToken(String token) {
-        return token != null && tokenService.validateAccessToken(token);
+        return token != null && accessTokenHelper.validate(token);
     }
 
     private void setAuthentication(String token) {
-        String userId = tokenService.extractAccessTokenSubject(token);
+        String userId = accessTokenHelper.extractSubject(token);
         CustomUserDetails userDetails = userDetailsService.loadUserByUsername(userId);
         SecurityContextHolder.getContext().setAuthentication(new CustomAuthenticationToken(userDetails, userDetails.getAuthorities()));
     }
