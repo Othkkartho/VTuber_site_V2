@@ -3,10 +3,7 @@ package com.othkkartho.vtuber_site_v2.repository.membermamage.sign;
 import com.othkkartho.vtuber_site_v2.domain.User.Member;
 import com.othkkartho.vtuber_site_v2.domain.User.Role;
 import com.othkkartho.vtuber_site_v2.domain.User.RoleType;
-import com.othkkartho.vtuber_site_v2.dto.membermanage.sign.SignInRequest;
-import com.othkkartho.vtuber_site_v2.dto.membermanage.sign.SignInResponse;
-import com.othkkartho.vtuber_site_v2.dto.membermanage.sign.SignUpRequest;
-import com.othkkartho.vtuber_site_v2.dto.membermanage.sign.TokenService;
+import com.othkkartho.vtuber_site_v2.dto.membermanage.sign.*;
 import com.othkkartho.vtuber_site_v2.exception.*;
 import com.othkkartho.vtuber_site_v2.repository.member.MemberRepository;
 import com.othkkartho.vtuber_site_v2.repository.role.RoleRepository;
@@ -21,6 +18,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.Collections;
 import java.util.Optional;
 
+import static com.othkkartho.vtuber_site_v2.factory.dto.SignUpRequestFactory.createSignUpRequest;
+import static com.othkkartho.vtuber_site_v2.factory.entity.MemberFactory.createMember;
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -32,16 +31,11 @@ import static org.mockito.Mockito.verify;
 @ExtendWith(MockitoExtension.class)
 public class SignServiceTest {
 
-    @InjectMocks
-    SignService signService;
-    @Mock
-    MemberRepository memberRepository;
-    @Mock
-    RoleRepository roleRepository;
-    @Mock
-    PasswordEncoder passwordEncoder;
-    @Mock
-    TokenService tokenService;
+    @InjectMocks SignService signService;
+    @Mock MemberRepository memberRepository;
+    @Mock RoleRepository roleRepository;
+    @Mock PasswordEncoder passwordEncoder;
+    @Mock TokenService tokenService;
 
     @Test
     void signUpTest() {
@@ -124,13 +118,31 @@ public class SignServiceTest {
                 .isInstanceOf(LoginFailureException.class);
     }
 
+    @Test
+    void refreshTokenTest() {
+        // given
+        String refreshToken = "refreshToken";
+        String subject = "subject";
+        String accessToken = "accessToken";
+        given(tokenService.validateRefreshToken(refreshToken)).willReturn(true);
+        given(tokenService.extractRefreshTokenSubject(refreshToken)).willReturn(subject);
+        given(tokenService.createAccessToken(subject)).willReturn(accessToken);
 
-    private SignUpRequest createSignUpRequest() {
-        return new SignUpRequest("email", "password", "nickname", 0L, "", "local");
+        // when
+        RefreshTokenResponse res = signService.refreshToken(refreshToken);
+
+        // then
+        assertThat(res.getAccessToken()).isEqualTo(accessToken);
     }
 
-    private Member createMember() {
-        return new Member("email", "password", "nickname", 0L, "", "local", Collections.emptyList());
-    }
+    @Test
+    void refreshTokenExceptionByInvalidTokenTest() {
+        // given
+        String refreshToken = "refreshToken";
+        given(tokenService.validateRefreshToken(refreshToken)).willReturn(false);
 
+        // when, then
+        assertThatThrownBy(() -> signService.refreshToken(refreshToken))
+                .isInstanceOf(AuthenticationEntryPointException.class);
+    }
 }

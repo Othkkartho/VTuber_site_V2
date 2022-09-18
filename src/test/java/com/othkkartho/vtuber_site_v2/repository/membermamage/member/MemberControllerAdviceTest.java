@@ -41,7 +41,7 @@ public class MemberControllerAdviceTest {
         mockMvc.perform(
                         get("/api/members/{id}", 1L))
                 .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.code").value(406));
+                .andExpect(jsonPath("$.code").value(407));
     }
 
     @Test
@@ -53,6 +53,6 @@ public class MemberControllerAdviceTest {
         mockMvc.perform(
                         delete("/api/members/{id}", 1L))
                 .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.code").value(406));
+                .andExpect(jsonPath("$.code").value(407));
     }
 }

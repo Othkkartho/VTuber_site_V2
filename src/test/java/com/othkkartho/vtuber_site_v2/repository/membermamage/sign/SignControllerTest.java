@@ -2,6 +2,7 @@ package com.othkkartho.vtuber_site_v2.repository.membermamage.sign;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.othkkartho.vtuber_site_v2.controller.sign.SignController;
+import com.othkkartho.vtuber_site_v2.dto.membermanage.sign.RefreshTokenResponse;
 import com.othkkartho.vtuber_site_v2.dto.membermanage.sign.SignInRequest;
 import com.othkkartho.vtuber_site_v2.dto.membermanage.sign.SignInResponse;
 import com.othkkartho.vtuber_site_v2.dto.membermanage.sign.SignUpRequest;
@@ -16,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import static com.othkkartho.vtuber_site_v2.factory.dto.RefreshTokenResponseFactory.createRefreshTokenResponse;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -84,4 +86,16 @@ public class SignControllerTest {
 
     }
 
+    @Test
+    void refreshTokenTest() throws Exception {
+        // given
+        given(signService.refreshToken("refreshToken")).willReturn(createRefreshTokenResponse("accessToken"));
+
+        // when, then
+        mockMvc.perform(
+                        post("/api/refresh-token")
+                                .header("Authorization", "refreshToken"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.result.data.accessToken").value("accessToken"));
+    }
 }

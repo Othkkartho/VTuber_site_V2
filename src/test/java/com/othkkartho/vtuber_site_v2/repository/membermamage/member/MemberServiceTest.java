@@ -14,6 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 import java.util.Optional;
 
+import static com.othkkartho.vtuber_site_v2.factory.entity.MemberFactory.createMember;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
@@ -67,10 +68,5 @@ public class MemberServiceTest {
 
         // when, then
         assertThatThrownBy(() -> memberService.delete(1L)).isInstanceOf(MemberNotFoundException.class);
-    }
-
-
-    private Member createMember() {
-        return new Member("email@email.com", "123456a!", "nickname", 0L, "", "local", List.of());
     }
 }

@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static com.othkkartho.vtuber_site_v2.factory.entity.MemberFactory.createMember;
+import static com.othkkartho.vtuber_site_v2.factory.entity.MemberFactory.createMemberWithRoles;
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -206,17 +208,4 @@ public class MemberRepositoryTest {
         em.flush();
         em.clear();
     }
-
-    private Member createMemberWithRoles(List<Role> roles) {
-        return new Member("email", "password", "nickname", 0L, "", "local", roles);
-    }
-
-    private Member createMember(String email, String password, String nickname, Long point, String introduce, String provider) {
-        return new Member(email, password, nickname, point, introduce, provider, emptyList());
-    }
-
-    private Member createMember() {
-        return new Member("email", "password", "nickname", 0L, "", "local", emptyList());
-    }
-
 }

@@ -2,10 +2,7 @@ package com.othkkartho.vtuber_site_v2.service.membermanage;
 
 import com.othkkartho.vtuber_site_v2.domain.User.Member;
 import com.othkkartho.vtuber_site_v2.domain.User.RoleType;
-import com.othkkartho.vtuber_site_v2.dto.membermanage.sign.SignInRequest;
-import com.othkkartho.vtuber_site_v2.dto.membermanage.sign.SignInResponse;
-import com.othkkartho.vtuber_site_v2.dto.membermanage.sign.SignUpRequest;
-import com.othkkartho.vtuber_site_v2.dto.membermanage.sign.TokenService;
+import com.othkkartho.vtuber_site_v2.dto.membermanage.sign.*;
 import com.othkkartho.vtuber_site_v2.exception.*;
 import com.othkkartho.vtuber_site_v2.repository.member.MemberRepository;
 import com.othkkartho.vtuber_site_v2.repository.role.RoleRepository;
@@ -16,14 +13,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class SignService {
     private final MemberRepository memberRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenService tokenService;
 
-    @Transactional
+    @Transactional(readOnly = true)
     public void signUp(SignUpRequest req) {
         validateSignUpInfo(req);
         memberRepository.save(SignUpRequest.toEntity(req,
@@ -31,6 +27,7 @@ public class SignService {
                 passwordEncoder));
     }
 
+    @Transactional(readOnly = true)
     public SignInResponse signIn(SignInRequest req) {
         Member member = memberRepository.findByEmail(req.getEmail()).orElseThrow(MemberNotFoundException::new);
         validatePassword(req, member);
@@ -55,5 +52,18 @@ public class SignService {
 
     private String createSubject(Member member) {
         return String.valueOf(member.getId());
+    }
+
+    public RefreshTokenResponse refreshToken(String rToken) {
+        validateRefreshToken(rToken);
+        String subject = tokenService.extractRefreshTokenSubject(rToken);
+        String accessToken = tokenService.createAccessToken(subject);
+        return new RefreshTokenResponse(accessToken);
+    }
+
+    private void validateRefreshToken(String rToken) {
+        if(!tokenService.validateRefreshToken(rToken)) {
+            throw new AuthenticationEntryPointException();
+        }
     }
 }
