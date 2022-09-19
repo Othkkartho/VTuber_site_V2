@@ -29,7 +29,7 @@ public class SecurityConfig {
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().mvcMatchers("/exception/**");
+        return (web) -> web.ignoring().mvcMatchers("/exception/**", "/*", "/css/**", "/js/**", "user/*");
     }
 
     @Bean
