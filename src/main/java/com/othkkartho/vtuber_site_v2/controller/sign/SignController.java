@@ -20,18 +20,9 @@ import static com.othkkartho.vtuber_site_v2.controller.response.Response.success
 public class SignController {
     private final SignService signService;
 
-//    @PostMapping("/api/sign-up")
-//    @ResponseStatus(HttpStatus.CREATED)
-//    public Response JsonSignUp(@Valid @RequestBody SignUpRequest req) {
-//        System.out.println("controller: "+req);
-//        signService.signUp(req);
-//        return success();
-//    }
-
-    @ApiOperation(value = "회원가입", notes = "회원가입을 한다.")
     @PostMapping("/api/sign-up")
     @ResponseStatus(HttpStatus.CREATED)
-    public Response FormSignUp(@Valid SignUpRequest req) {
+    public Response JsonSignUp(@Valid @RequestBody SignUpRequest req) {
         System.out.println("controller: "+req);
         signService.signUp(req);
         return success();
