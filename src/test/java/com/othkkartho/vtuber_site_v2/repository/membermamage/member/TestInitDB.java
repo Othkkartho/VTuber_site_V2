@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Component
 public class TestInitDB {
@@ -34,7 +35,7 @@ public class TestInitDB {
 
     private void initRole() {
         roleRepository.saveAll(
-                List.of(RoleType.values()).stream().map(roleType -> new Role(roleType)).collect(Collectors.toList())
+                Stream.of(RoleType.values()).map(Role::new).collect(Collectors.toList())
         );
     }
 

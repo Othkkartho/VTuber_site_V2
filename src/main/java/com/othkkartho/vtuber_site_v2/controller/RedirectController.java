@@ -10,13 +10,13 @@ public class RedirectController {
         return "/index";
     }
 
-    @RequestMapping("/user/sign-up")
-    public String signUp() {
-        return "/member/memberJoinForm";
+    @RequestMapping("/user/sign-in")
+    public String SignIn() {
+        return "/member/memberLoginForm";
     }
 
-    @RequestMapping("/user/sign-in")
-    public String signIn() {
-        return "/member/memberLoginForm";
+    @RequestMapping("/user/sign-up")
+    public String SignUp() {
+        return "/member/memberJoinForm";
     }
 }
