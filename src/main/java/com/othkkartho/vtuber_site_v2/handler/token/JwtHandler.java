@@ -19,7 +19,7 @@ public class JwtHandler {
                 .setIssuedAt(now)
                 .setExpiration(new Date(now.getTime() + maxAgeSeconds * 1000L))
 //                .signWith(SignatureAlgorithm.HS256, encodedKey)
-                .signWith(key, SignatureAlgorithm.HS256)
+                .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
     }
 
