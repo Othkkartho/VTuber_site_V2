@@ -169,7 +169,7 @@ public class MemberRepositoryTest {
     void memberRoleCascadePersistTest() {
         // given
         List<RoleType> roleTypes = List.of(RoleType.USER, RoleType.TRANSLATOR, RoleType.ILLUSTRATOR, RoleType.GAME_ADMIN, RoleType.CHANNEL_ADMIN, RoleType.ADMIN);
-        List<Role> roles = roleTypes.stream().map(roleType -> new Role(roleType)).collect(Collectors.toList());
+        List<Role> roles = roleTypes.stream().map(Role::new).collect(Collectors.toList());
         roleRepository.saveAll(roles);
         clear();
 
@@ -188,7 +188,7 @@ public class MemberRepositoryTest {
     void memberRoleCascadeDeleteTest() {
         // given
         List<RoleType> roleTypes = List.of(RoleType.USER, RoleType.TRANSLATOR, RoleType.ILLUSTRATOR, RoleType.GAME_ADMIN, RoleType.CHANNEL_ADMIN, RoleType.ADMIN);
-        List<Role> roles = roleTypes.stream().map(roleType -> new Role(roleType)).collect(Collectors.toList());
+        List<Role> roles = roleTypes.stream().map(Role::new).collect(Collectors.toList());
         roleRepository.saveAll(roles);
         clear();
 

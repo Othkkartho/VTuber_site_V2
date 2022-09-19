@@ -52,10 +52,8 @@
         </form>
 
         <div class="text-end">
-          <button sec:authorize="isAnonymous()" type="button" class="btn btn-outline-light me-2" onclick="location.href='/member/memberLoginForm'">로그인</button>
-          <button sec:authorize="isAnonymous()" type="button" class="btn btn-warning" onclick="location.href='/member/memberJoinForm'">회원가입</button>
-          <button sec:authorize="isAuthenticated()" type="button" class="btn btn-outline-light me-2" onclick="location.href='/member/logout'">로그아웃</button>
-          <button sec:authorize="isAuthenticated()" type="button" class="btn btn-outline-light me-2" onclick="location.href='/member/mypage'">마이페이지</button>
+          <button type="button" class="btn btn-outline-light me-2" onclick="location.href='/user/sign-in'">로그인</button>
+          <button type="button" class="btn btn-warning" onclick="location.href='/user/sign-up'">회원가입</button>
         </div>
       </div>
     </div>

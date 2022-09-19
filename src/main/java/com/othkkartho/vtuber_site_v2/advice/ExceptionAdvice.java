@@ -17,7 +17,7 @@ public class ExceptionAdvice {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public Response exception(Exception e) {
         log.info("e = {}", e.getMessage());
-        return Response.failure(401, "오류가 발생하였습니다.");
+        return Response.failure(410, "오류가 발생하였습니다.");
     }
 
     @ExceptionHandler(AuthenticationEntryPointException.class)
